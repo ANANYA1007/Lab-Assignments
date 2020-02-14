@@ -1,0 +1,100 @@
+
+#include<stdio.h>
+#include<string.h>
+void infix_to_postfix(char infix[]);
+void push(char);
+char pop();
+int top=-1;
+char stack[20];
+void push(char a)
+{if(top>=19)
+{printf("overflow");
+}
+else
+{top=top+1;
+stack[top]=a;
+}
+}
+char pop()
+{char item;
+if(top==-1)
+{printf("empty stack");
+}
+else
+{item=stack[top];
+top--;
+}
+return(item);
+}
+
+int preceding(char c)
+{if(c==47)
+{return(5);}
+else if(c==42)
+{return(4);
+}
+else if(c==43)
+{return(3);
+}
+else
+return(2);
+}
+
+void infix_to_postfix(char infix[])
+{int length;
+int index=0;
+int pos=0;
+char sym,temp;
+char postfix[20];
+length=strlen(infix);
+push("#");
+while(index<length)
+{sym=infix[index];
+switch(sym)
+{case '(':
+	push(sym);
+	break;
+case')':
+	temp=pop();
+while (temp!='(')
+{postfix[pos]=temp;
+pos++;
+temp=pop();
+}
+break;
+case'+':
+case'-':
+case'*':
+case'/':
+while(preceding(stack[top])>=preceding(sym))
+{temp=pop();
+postfix[pos]=temp;
+pos++;
+}
+push(sym);
+break;
+default:postfix[pos++]=sym;
+break;
+		
+}
+index++;
+
+}
+while(top>0)
+{temp=pop();
+postfix[pos++]=temp;
+}
+postfix[pos++]='\0';
+puts(postfix);
+return;
+
+}
+int main()
+{char infix[20];
+printf("\n enter required expression");
+gets(infix);
+postfix(infix);
+}
+
+19095014_cso102.c
+Displaying 19095014_cso102.c.
